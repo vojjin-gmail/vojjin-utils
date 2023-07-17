@@ -9,7 +9,13 @@
       "email": "vojjin@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "VoxxxUtils\\": "src"
+    }
+  },
   "require": {
-    "php": ">=8.1"
+    "php": ">=8.1",
+    "ext-curl": "*"
   }
 }
