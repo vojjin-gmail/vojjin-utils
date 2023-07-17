@@ -16,6 +16,10 @@
   },
   "require": {
     "php": ">=8.1",
-    "ext-curl": "*"
+    "james-heinrich/getid3": "^1.9",
+    "ext-curl": "*",
+    "ext-mbstring": "*",
+    "ext-iconv": "*",
+    "ext-simplexml": "*"
   }
 }
