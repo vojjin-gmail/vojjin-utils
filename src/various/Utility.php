@@ -6,7 +6,7 @@
  * Time: 15:23
  */
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\various;
 
 use SimpleXMLElement;
 

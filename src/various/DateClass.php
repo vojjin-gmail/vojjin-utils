@@ -6,7 +6,7 @@
  * Time: 15:03
  */
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\various;
 
 use DateTime;
 

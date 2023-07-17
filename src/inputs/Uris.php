@@ -1,6 +1,6 @@
 <?php
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\inputs;
 
 
 class Uris {

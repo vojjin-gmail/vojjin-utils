@@ -20,6 +20,8 @@
     "ext-curl": "*",
     "ext-mbstring": "*",
     "ext-iconv": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "ext-gd": "*",
+    "ext-mysqli": "*"
   }
 }

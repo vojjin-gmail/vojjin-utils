@@ -6,7 +6,7 @@
  * Time: 4:59 PM
  */
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\various;
 
 class Converter {
 

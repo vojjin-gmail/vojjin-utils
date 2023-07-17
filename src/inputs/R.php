@@ -1,6 +1,9 @@
 <?php
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\inputs;
+
+use VoxxxUtils\various\DateClass;
+use VoxxxUtils\various\Validator;
 
 /**
  * Class for receiving input variables... $_POST, $_GET, or json in request body

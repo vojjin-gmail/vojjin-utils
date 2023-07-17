@@ -10,7 +10,7 @@
  * Time: 4:38 PM
  */
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\various;
 
 
 class Validator {

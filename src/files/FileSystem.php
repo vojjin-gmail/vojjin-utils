@@ -2,7 +2,7 @@
 /**
  * Copyright (c) Vojin Petrovic. All rights reserved.
  */
-namespace VoxxxUtils;
+namespace VoxxxUtils\files;
 
 class FileSystem {
 	static function createFolder($folder): void {
