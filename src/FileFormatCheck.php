@@ -5,7 +5,7 @@ namespace VoxxxUtils;
 
 use getID3;
 
-require_once dirname(__DIR__,3) . "james-heinrich" . DIRECTORY_SEPARATOR . "getid3" . DIRECTORY_SEPARATOR . "getid3" . DIRECTORY_SEPARATOR . "getid3.php";
+require_once dirname(__DIR__,3) . DIRECTORY_SEPARATOR . "james-heinrich" . DIRECTORY_SEPARATOR . "getid3" . DIRECTORY_SEPARATOR . "getid3" . DIRECTORY_SEPARATOR . "getid3.php";
 
 class FileFormatCheck {
 	public array $fi;
