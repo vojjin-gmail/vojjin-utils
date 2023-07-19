@@ -6,7 +6,12 @@
  * Time: 2:38 PM
  */
 
-namespace VoxxxUtils;
+namespace VoxxxUtils\net;
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
+
 class Net {
 	static function getHttp(string $url, array $vars = [], $async = false): bool|string {
 		if (str_starts_with($url, "https")) {
@@ -20,7 +25,7 @@ class Net {
 
 	static function getHttpDo(string $url, array $vars = [], bool $isssl = false, bool $async = false): bool|string {
 		$ch = curl_init($url);
-		if (FALSE === $ch)
+		if (false === $ch)
 			return false;
 		if ($isssl === true) {
 			curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -37,13 +42,29 @@ class Net {
 		}
 
 		$data = curl_exec($ch);
-		if (FALSE === $data)
+		if (false === $data)
 			return false;
 		$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		if (200 != $http_status)
 			return "";
 		curl_close($ch);
 		return $data;
+	}
+
+	/**
+	 * @throws GuzzleException
+	 */
+	public function getGuzzleHttp(string $uri, array $params): bool|string {
+		$client = new Client();
+
+		$response = $client->post($uri, [
+			RequestOptions::JSON => $params
+		]);
+
+		if ($response->getStatusCode()!=200) return false;
+
+		return $response->getBody()->getContents();
+
 	}
 
 }

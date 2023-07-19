@@ -10,23 +10,23 @@ use mysqli_result;
 use mysqli_sql_exception;
 
 class Mysql {
-	private mysqli $connection;
+	private mysqli $conn;
 	private array $recordSet = [];
 	private int $affected_rows = 0;
 	private int $lastId = 0;
 
 	public function __construct(MysqlConnection $connection) {
-		$this->connection = mysqli_connect($connection->host, $connection->user, $connection->pass, $connection->dbname, $connection->port);
-		$this->connection->query("SET NAMES 'utf8';");
+		$this->conn = mysqli_connect($connection->host, $connection->user, $connection->pass, $connection->dbname, $connection->port);
+		$this->conn->query("SET NAMES 'utf8';");
 	}
 
 	function open($server, $user, $pass, $table, $port): void {
-		$this->connection = mysqli_connect($server, $user, $pass, $table, $port);
-		$this->connection->query("SET NAMES 'utf8';");
+		$this->conn = mysqli_connect($server, $user, $pass, $table, $port);
+		$this->conn->query("SET NAMES 'utf8';");
 	}
 
 	function close(): void {
-		$this->connection->close();
+		$this->conn->close();
 	}
 
 	public function insert($table, $columns, $values): int {
@@ -125,7 +125,7 @@ class Mysql {
 	}
 
 	function safeValue(string $str): string {
-		return mysqli_real_escape_string($this->connection, $str);
+		return mysqli_real_escape_string($this->conn, $str);
 	}
 
 	/***************************************************************/
@@ -158,7 +158,7 @@ class Mysql {
 		return $ret;
 	}
 
-	function readTableSingleValue($table, $column, $where = "", $group = "", $order = ""): array {
+	function readTableSingleValues($table, $column, $where = "", $group = "", $order = ""): array {
 		$sql = "select * from `" . $table . "`";
 		if ($where != "")
 			$sql .= " where " . $where;
@@ -174,7 +174,7 @@ class Mysql {
 		return $ret;
 	}
 
-	function readTableSingleValueSql($sql, $column): array {
+	function readTableSingleValuesSql($sql, $column): array {
 		$ret = [];
 		$r = $this->executeSelectQuery($sql);
 		foreach ($r as $row) {
@@ -183,7 +183,7 @@ class Mysql {
 		return $ret;
 	}
 
-	function readTableSingleValueSqlWithId($sql, $column): array {
+	function readTableSingleValuesSqlWithId($sql, $column): array {
 		$ret = [];
 		$r = $this->executeSelectQuery($sql);
 		$ret[0] = "";
@@ -193,7 +193,7 @@ class Mysql {
 		return $ret;
 	}
 
-	function readTableSpecial($sql): array {
+	function readTableSql($sql): array {
 		$ret = [];
 		$r = $this->executeSelectQuery($sql);
 		foreach ($r as $row) {
@@ -247,43 +247,43 @@ class Mysql {
 	/***********************/
 	private function executeInsertQuery(string $sql): int {
 		try {
-			$this->connection->query($sql);
-			return mysqli_insert_id($this->connection);
+			$this->conn->query($sql);
+			return mysqli_insert_id($this->conn);
 		} catch (mysqli_sql_exception) {
-			$this->showError($sql, mysqli_error($this->connection));
+			$this->showError($sql, mysqli_error($this->conn));
 		}
 
 	}
 
 	private function executeUpdateQuery(string $sql): void {
 		try {
-			$this->connection->query($sql);
-			$this->affected_rows = mysqli_affected_rows($this->connection);
+			$this->conn->query($sql);
+			$this->affected_rows = mysqli_affected_rows($this->conn);
 		} catch (mysqli_sql_exception) {
-			$this->showError($sql, mysqli_error($this->connection));
+			$this->showError($sql, mysqli_error($this->conn));
 		}
 
 	}
 
 	private function executeSelectQuery(string $sql): mysqli_result {
 		try {
-			$r = $this->connection->query($sql);
+			$r = $this->conn->query($sql);
 			if (!$r)
-				$this->showError($sql, mysqli_error($this->connection));
+				$this->showError($sql, mysqli_error($this->conn));
 			return $r;
 		} catch (mysqli_sql_exception) {
-			$this->showError($sql, mysqli_error($this->connection));
+			$this->showError($sql, mysqli_error($this->conn));
 		}
 
 	}
 
 	private function executeReadQuery(string $sql, int $b = 1): void {
 		try {
-			$this->recordSet[$b] = $this->connection->query($sql);
+			$this->recordSet[$b] = $this->conn->query($sql);
 			if (!$this->recordSet[$b])
-				$this->showError($sql, mysqli_error($this->connection));
+				$this->showError($sql, mysqli_error($this->conn));
 		} catch (mysqli_sql_exception) {
-			$this->showError($sql, mysqli_error($this->connection));
+			$this->showError($sql, mysqli_error($this->conn));
 		}
 
 	}
