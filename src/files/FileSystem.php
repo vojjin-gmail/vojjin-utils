@@ -5,6 +5,12 @@
 namespace VoxxxUtils\files;
 
 class FileSystem {
+	static function createFolders($path,$a="gallery,images,thumb"): void {
+		$as = explode(",", $a);
+		foreach ($as as $ah) {
+			self::createFolder($path . DIRECTORY_SEPARATOR . $ah);
+		}
+	}
 	static function createFolder($folder): void {
 		if (!is_file($folder)) {
 			$parts = explode(DIRECTORY_SEPARATOR, $folder);
