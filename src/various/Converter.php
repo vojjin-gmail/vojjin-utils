@@ -9,6 +9,17 @@
 namespace VoxxxUtils\various;
 
 class Converter {
+	private array $cirfrom = [
+		"А", "A", "Б", "B", "В", "V", "Г", "G", "Д", "D", "Ђ", "Đ", "Е", "E", "Ж", "Ž", "З", "Z", "И", "I", "Ј", "J", "К", "K", "Л", "L", "Љ", "М", "M",
+		"Н", "N", "Њ", "О", "O", "П", "P", "Р", "R", "С", "S", "Т", "T", "Ћ", "Ć", "У", "U", "Ф", "F", "Х", "H", "Ц", "C", "Ч", "Č", "Џ", "Ш", "Š", "Q", "W", "X", "Y"
+	];
+	private array $latfrom = [
+		"А", "A", "Б", "B", "Ц", "C", "Ч", "Č", "Ћ", "Ć", "Д", "D", "Џ", "Ђ", "Đ", "Е", "E", "Ф", "F", "Г", "G", "Х", "H", "И", "I", "Ј", "J", "К", "K", "Л", "L", "Љ", "М", "M",
+		"Н", "N", "Њ", "О", "O", "П", "P", "Q", "Р", "R", "С", "S", "Ш", "Š", "Т", "T", "У", "U", "В", "V", "W", "X", "Y", "З", "Z", "Ж", "Ž"
+	];
+	private array $engfrom = [
+		"A", "B", "C", "Č", "Ć", "D", "Đ", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "Š", "T", "U", "V", "W", "X", "Y", "Z", "Ž"
+	];
 
 	private array $file_from = [
 		" ", "A", "B", "V", "G", "D", "Đ", "E", "Ž", "Z", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "Ć", "U", "F", "H", "C", "Č", "Š", "Q", "W", "X", "Y",
@@ -85,6 +96,9 @@ class Converter {
 		"A", "B", "V", "G", "D", "Đ", "E", "Ž", "Z", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S", "T", "Ć", "U", "F", "H", "C", "Č", "Š", "a", "b", "v", "g", "d", "đ",
 		"e", "ž", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "ć", "u", "f", "h", "c", "č", "š"];
 
+	public array $cirto = [];
+	public array $latto = [];
+	public array $engto = [];
 
 	function makeCleanFile(string $inputFilename, int $maxLength = 128): string {
 		$ret = str_replace($this->file_from, $this->file_to, trim($inputFilename));
@@ -296,6 +310,18 @@ class Converter {
 		}
 		return $ret;
 
+	}
+
+	function makeLangIndex($cir = "", $eng = ""): array {
+		$lat = $this->cir2lat($cir);
+		for ($i = 0; $i < count($this->cirfrom); $i++) $this->cirto[] = sprintf("%02s", $i);
+		for ($i = 0; $i < count($this->latfrom); $i++) $this->latto[] = sprintf("%02s", $i);
+		for ($i = 0; $i < count($this->engfrom); $i++) $this->engto[] = sprintf("%02s", $i);
+		$ret = [];
+		$ret[] = str_ireplace($this->cirfrom, $this->cirto, Utility::uppercase($cir));
+		$ret[] = str_ireplace($this->latfrom, $this->latto, Utility::uppercase($lat));
+		$ret[] = str_ireplace($this->engfrom, $this->engto, Utility::uppercase($eng));
+		return $ret;
 	}
 
 

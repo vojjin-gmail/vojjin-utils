@@ -66,9 +66,9 @@ class Utility {
 		$children = $obj->children();
 		foreach ($children as $elementName => $node) {
 			$nextIdx = count($arr);
-			$arr[$nextIdx] = array();
+			$arr[$nextIdx] = [];
 			$arr[$nextIdx]['name'] = $elementName;
-			$arr[$nextIdx]['attr'] = array();
+			$arr[$nextIdx]['attr'] = [];
 			$attributes = $node->attributes();
 			foreach ($attributes as $attributeName => $attributeValue) {
 				$attribName = (trim((string)$attributeName));
@@ -79,7 +79,7 @@ class Utility {
 			$text = trim($text);
 			if (strlen($text) > 0)
 				$arr[$nextIdx]['text'] = $text;
-			$arr[$nextIdx]['child'] = array();
+			$arr[$nextIdx]['child'] = [];
 			self::convertXmlObjToArr($node, $arr[$nextIdx]['child']);
 		}
 	}
@@ -87,7 +87,7 @@ class Utility {
 	static function convertXmlObjToStd($obj, &$arr): void {
 		$children = $obj->children();
 		foreach ($children as $elementName => $node) {
-			$arr[(string)$elementName] = array();
+			$arr[(string)$elementName] = [];
 			$text = (string)$node;
 			$text = trim($text);
 			if (strlen($text) > 0) {
@@ -213,14 +213,14 @@ class Utility {
 		$content = trim(strip_tags(strip_tags($content)));
 
 		$pattern = '/\{\{(.*?)\}\}/';
-		$matches = array();
+		$matches = [];
 		preg_match_all($pattern, $content, $matches);
 		for ($i = 0; $i < count($matches[1]); $i++) {
 			$content = str_replace($matches[0][$i], "", $content);
 		}
 		$content = str_replace("&nbsp;", " ", $content);
 		$pattern = '/\[\[(.*?)\]\]/';
-		$matches = array();
+		$matches = [];
 		preg_match_all($pattern, $content, $matches);
 		for ($i = 0; $i < count($matches[1]); $i++) {
 			$content = str_replace($matches[0][$i], "", $content);
@@ -251,14 +251,14 @@ class Utility {
 	static function excerpt($content, $q, $dots = true): string {
 		$c = strip_tags($content);
 		$pattern = '/\{\{(.*?)\}\}/';
-		$matches = array();
+		$matches = [];
 		preg_match_all($pattern, $c, $matches);
 		for ($i = 0; $i < count($matches[1]); $i++) {
 			$c = str_replace($matches[0][$i], "", $c);
 		}
 		$c = str_replace("&nbsp;", " ", $c);
 		$pattern = '/\[\[(.*?)\]\]/';
-		$matches = array();
+		$matches = [];
 		preg_match_all($pattern, $c, $matches);
 		for ($i = 0; $i < count($matches[1]); $i++) {
 			$c = str_replace($matches[0][$i], "", $c);
@@ -319,5 +319,12 @@ class Utility {
 		return str_replace(["(", ")"], ["%28", "%29"], $a);
 	}
 
+	static function lowercase(string $a): string {
+		return mb_convert_case($a, MB_CASE_LOWER, "UTF-8");
+	}
+
+	static function uppercase(string $a): string {
+		return mb_convert_case($a, MB_CASE_UPPER, "UTF-8");
+	}
 
 }
