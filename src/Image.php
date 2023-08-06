@@ -79,7 +79,7 @@ class Image {
 		return $this;
 	}
 
-	public function createFromBase64($base64string):Image {
+	public function createFromBase64($base64string): Image {
 		if (extension_loaded('gd')) {
 			$img_base64 = base64_decode(str_replace(' ', '+', preg_replace('#^data:image/[^;]+;base64,#', '', $base64string)));
 			$this->resource = imagecreatefromstring($img_base64);
@@ -198,6 +198,30 @@ class Image {
 		$back_color = imagecolorallocate($t_im, 255, 255, 255);
 		imagefilledrectangle($t_im, 0, 0, $newW, $newH, $back_color);
 		imagecopyresampled($t_im, $resource, 0, 0, 0, 0, $newW, $newH, $dw, $dh);
+		imagejpeg($t_im, $destFile, $quality);
+		imagedestroy($resource);
+		imagedestroy($t_im);
+		return true;
+	}
+
+	public function resizeImageToFixedSizeWithOffset($newW, $newH, $destFile, $cx1, $cx2, $cy1, $cy2, $quality = 85): bool {
+		$resource = $this->createImageResource();
+		if (!$resource) {
+			return false;
+		}
+		$sx = (int)($cx1 * $this->width);
+		$sx2 = (int)($cx2 * $this->width);
+		$sy = (int)($cy1 * $this->height);
+		$dw = $sx2 - $sx;
+		$dh = (int)(($newH / $newW) * $dw);
+		if ($sy + $dh >= $this->height) {
+			$sy = $this->height - $dh - 1;
+		}
+
+		$t_im = imagecreatetruecolor($newW, $newH);
+		$back_color = imagecolorallocate($t_im, 255, 255, 255);
+		imagefilledrectangle($t_im, 0, 0, $newW, $newH, $back_color);
+		imagecopyresampled($t_im, $resource, 0, 0, $sx, $sy, $newW, $newH, $dw, $dh);
 		imagejpeg($t_im, $destFile, $quality);
 		imagedestroy($resource);
 		imagedestroy($t_im);
