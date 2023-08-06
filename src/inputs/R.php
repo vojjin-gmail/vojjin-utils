@@ -37,6 +37,27 @@ class R {
 		return false;
 	}
 
+	static function getAllValues(): object {
+		$values = [];
+		$ct=$_SERVER["CONTENT_TYPE"]??"";
+		if ($ct == null) $ct="";
+		$contentType = trim($ct);
+		if ($contentType == "application/json") {
+			$content = json_decode(file_get_contents("php://input"));
+			foreach ($content as $key => $value) {
+				$values[$key] = $value;
+			}
+		} else {
+			foreach ($_POST as $key => $value) {
+				$values[$key] = $value;
+			}
+			foreach ($_GET as $key => $value) {
+				$values[$key] = $value;
+			}
+		}
+		return (object)$values;
+	}
+
 	static function getAnyNum($key): float|int {
 		if (!self::isSet($key)) return 0;
 		$value = self::getKey($key);
