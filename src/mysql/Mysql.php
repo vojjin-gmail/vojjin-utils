@@ -193,11 +193,14 @@ class Mysql {
 		return $ret;
 	}
 
-	function readTableSql($sql): array {
+	function readTableSql($sql, $id = ""): array {
 		$ret = [];
 		$r = $this->executeSelectQuery($sql);
 		foreach ($r as $row) {
-			$ret[] = $row;
+			if ($id == "")
+				$ret[] = $row;
+			else
+				$ret[$row[$id]] = $row;
 		}
 		return $ret;
 

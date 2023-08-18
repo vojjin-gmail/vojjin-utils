@@ -145,4 +145,12 @@ class Validator {
 		return self::pregcheck($a, '/^[0-9a-z_\/\-]{1,255}$/');
 	}
 
+	static function validate_order($a): bool {
+		return self::pregcheck($a, '/^[A-Z0-9]{6}$/');
+	}
+
+	static function validate_localorder($a): bool {
+		return self::pregcheck($a, '/^[A-Z0-9]{7}$/');
+	}
+
 }
